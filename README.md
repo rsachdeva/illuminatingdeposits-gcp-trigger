@@ -7,3 +7,8 @@ Illuminating Deposits Google Cloud Platform GCP based trigger of Resources appli
 <p align="center">
 <img src="./logo.png" alt="Illuminating Deposits Project Logo" title="Illuminating Deposits Project Logo" />
 </p>
+
+
+
+# Version
+v0.0.0
