@@ -10,7 +10,7 @@ resource "google_storage_bucket_object" "illuminating_src_code" {
 }
 
 resource "google_cloudfunctions_function" "illuminating_deposits_func" {
-  name = "fun-from-tf"
+  name = "illuminating_deposits_func"
   runtime = "go119"
   description = "function from terraform script using go 1.19"
 
@@ -19,6 +19,6 @@ resource "google_cloudfunctions_function" "illuminating_deposits_func" {
   source_archive_object = google_storage_bucket_object.illuminating_src_code.name
 
   trigger_http = true
-  entry_point = "HelloWorld"
+  entry_point = "HelloHTTP"
 
 }
