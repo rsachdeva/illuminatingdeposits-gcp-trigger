@@ -16,4 +16,4 @@
 
 .go-version
 
-deploy/terraform/keys.json
+deploy/terraform/keys*.json
