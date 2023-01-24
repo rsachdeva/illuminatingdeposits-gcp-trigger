@@ -1,4 +1,4 @@
-module github.com/rsachdeva/illuminatingdeposits-gcp-trigger
+module github.com/rsachdeva/illuminatingdeposits-gcp-trigger/interestcal
 
 go 1.19
 

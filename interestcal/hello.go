@@ -1,4 +1,4 @@
-package main
+package interestcal
 
 import (
 	"encoding/json"
@@ -23,7 +23,7 @@ func helloHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if d.Name == "" {
-		fmt.Fprint(w, "Hello, World!")
+		fmt.Fprint(w, "Hello, World!!")
 		return
 	}
 	fmt.Fprintf(w, "Hello, %s!", html.EscapeString(d.Name))

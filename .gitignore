@@ -17,8 +17,11 @@
 # from goenv
 .go-version
 
-# for terraform keys for service account
+
+# terraform files
+deploy/terraform/.terraform.lock.hcl
+deploy/terraform/.terraform/
+deploy/terraform/terraform.tfstate
+# inside terraform files for terraform keys for service account
 deploy/terraform/keys*.json
 
-# from go build
-illuminatingdeposits-gcp-trigger
