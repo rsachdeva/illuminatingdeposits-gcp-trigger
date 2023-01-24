@@ -44,5 +44,9 @@ resource "google_cloudfunctions2_function" "function" {
     max_instance_count  = 1
     available_memory    = "256M"
     timeout_seconds     = 60
+    # ingress_settings - (Optional) Available ingress settings. Defaults to "ALLOW_ALL" if unspecified.
+    ingress_settings = "ALLOW_ALL"
+    # Whether 100% of traffic is routed to the latest revision. Defaults to true.
+    all_traffic_on_latest_revision = true
   }
 }
