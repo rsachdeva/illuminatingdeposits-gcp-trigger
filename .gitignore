@@ -17,6 +17,7 @@
 # from goenv
 .go-version
 
+checkzip/
 
 # terraform files
 deploy/terraform/.terraform.lock.hcl
