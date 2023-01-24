@@ -25,4 +25,7 @@ deploy/terraform/terraform.tfstate
 deploy/terraform/terraform.tfstate.backup
 # inside terraform files for terraform keys for service account
 deploy/terraform/keys*.json
+# inside terraform files zip file uploaded to cloud storage already
+illuminating-gosource.zip
+
 
