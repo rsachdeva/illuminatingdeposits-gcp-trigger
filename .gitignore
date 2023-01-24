@@ -14,6 +14,11 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# from goenv
 .go-version
 
+# for terraform keys for service account
 deploy/terraform/keys*.json
+
+# from go build
+illuminatingdeposits-gcp-trigger

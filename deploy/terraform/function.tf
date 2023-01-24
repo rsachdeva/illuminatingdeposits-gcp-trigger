@@ -4,9 +4,9 @@ resource "google_storage_bucket" "illuminating_bucket" {
 }
 
 resource "google_storage_bucket_object" "illuminating_src_code" {
-  name = "gomain.zip"
+  name = "goilluminating.zip"
   bucket = google_storage_bucket.illuminating_bucket.name
-  source = "gomain.zip"
+  source = "goilluminating.zip"
 }
 
 resource "google_cloudfunctions_function" "illuminating_deposits_func" {
