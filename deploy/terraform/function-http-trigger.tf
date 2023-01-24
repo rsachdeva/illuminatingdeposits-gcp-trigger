@@ -34,6 +34,8 @@ resource "google_cloudfunctions2_function" "function" {
     entry_point = "HelloHTTP"  # Set the entry point for exported function
     source {
       storage_source {
+        # gcf-v2-sources-923961404233-us-central1	bucket with a file function-source.zip is created from
+        # illuminating_gcp_trigger bucket with the uploaded file from our terraform block above illuminating-gosource.zip
         bucket = google_storage_bucket.illuminating_bucket.name
         object = google_storage_bucket_object.illuminating_src_code.name
       }
