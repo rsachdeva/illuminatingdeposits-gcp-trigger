@@ -25,7 +25,7 @@ resource "google_storage_bucket_object" "illuminating_src_code" {
 
 
 resource "google_cloudfunctions2_function" "function" {
-  name = "illuminating_deposits_func"
+  name = "illuminating-deposits-vzeropoint1"
   location = "us-central1"
   description = "function from terraform script using go 1.19"
 
