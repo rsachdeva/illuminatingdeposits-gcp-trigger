@@ -1,13 +1,19 @@
-prepare-for-upload: zip copy-for-upload
+prepare-upload: clean zip move-to-tf
+
+.PHONY: clean
+clean:
+	rm -f *.zip
+	rm -f deploy/terraform/*.zip
 
 .PHONY: zip
 zip:
-	zip goilluminating.zip go.mod hello.go
+	zip illuminating-gosource.zip go.mod hello.go
 
 .PHONY: copy-for-upload
-copy-for-upload:
-	cp goilluminating.zip deploy/terraform
+move-to-tf:
+	mv illuminating-gosource.zip deploy/terraform
 
+# only for local check building
 .PHONY: build
 build:
 	go build .

@@ -11,4 +11,4 @@ Illuminating Deposits Google Cloud Platform GCP based trigger of Resources appli
 
 
 # Version
-v0.0.2
+v0.0.3
