@@ -40,6 +40,12 @@ resource "google_cloudfunctions2_function" "function" {
     }
   }
 
+  lifecycle {
+    replace_triggered_by  = [
+      google_storage_bucket_object.illuminating_src_code
+    ]
+  }
+
   service_config {
     max_instance_count  = 1
     available_memory    = "256M"
