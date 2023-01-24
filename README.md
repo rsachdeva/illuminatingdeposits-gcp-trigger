@@ -12,12 +12,14 @@ Illuminating Deposits Google Cloud Platform GCP based trigger of Resources appli
 # output for http trigger initial-v0.1
 Http trigger with curl:
 
-`➜ curl -m 70 -X POST https://illuminating-deposits-vzeropoint1-2fzqdixaqa-uc.a.run.app \
+`
+curl -m 70 -X POST https://illuminating-deposits-vzeropoint1-2fzqdixaqa-uc.a.run.app \
 -H "Authorization: bearer $(gcloud auth print-identity-token)" \
 -H "Content-Type: application/json" \
 -d '{
 "name": "Whats  up"
-}'`
+}
+`
 
 Output:
 
