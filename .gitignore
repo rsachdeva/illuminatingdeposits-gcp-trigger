@@ -22,7 +22,7 @@
 deploy/terraform/.terraform.lock.hcl
 deploy/terraform/.terraform/
 deploy/terraform/terraform.tfstate
-terraform.tfstate.backup
+deploy/terraform/terraform.tfstate.backup
 # inside terraform files for terraform keys for service account
 deploy/terraform/keys*.json
 
