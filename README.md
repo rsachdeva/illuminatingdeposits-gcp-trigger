@@ -35,7 +35,9 @@ curl -m 70 -X POST https://notifyslack-vzeropoint1-2fzqdixaqa-uc.a.run.app \
 
 Output:
 
-Slack channel notified
+Slack channel notified 
+with message:
+Triggering Illuminating Calculation Wrap Up
 
 # Version
 v0.0.7
