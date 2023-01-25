@@ -23,17 +23,16 @@ clean:
 
 .PHONY: zip
 zip:
-	zip illuminating-gosource.zip go.mod interestcal.go
+	zip notifyslack-gosource.zip go.mod notifyslack.go
 
 .PHONY: copy-for-upload
 move-to-tf:
-	mv illuminating-gosource.zip deploy/terraform
+	mv notifyslack-gosource.zip deploy/terraform
 
 #only for checking
-
 .PHONY: unzip-check
 unzip-check:
-	unzip -p deploy/terraform/illuminating-gosource.zip hello.go | less
+	unzip -p deploy/terraform/notifyslack-gosource.zip hello.go | less
 
 .PHONY: build-check
 build-check:
