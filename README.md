@@ -18,7 +18,7 @@ curl -m 70 -X POST https://illuminating-deposits-vzeropoint1-2fzqdixaqa-uc.a.run
 -H "Content-Type: application/json" \
 -d '{
 "name": "Whats  up"
-}
+}'
 `
 
 Output:
