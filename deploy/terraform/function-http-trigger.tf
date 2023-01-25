@@ -34,8 +34,10 @@ resource "google_cloudfunctions2_function" "function" {
     entry_point = "HelloHTTP"  # Set the entry point for exported function
     source {
       storage_source {
-        # gcf-v2-sources-923961404233-us-central1	bucket with a file function-source.zip is created from
+        # gcf-v2-sources-923961404233-us-central1 created bucket with a file function-source.zip. This is automatically created from
         # illuminating_gcp_trigger bucket with the uploaded file from our terraform block above illuminating-gosource.zip
+        # manually clean this resource if needed to be sure when doing terraform destroy reference:
+        # https://stackoverflow.com/questions/72148179/after-delete-a-cloud-function-it-still-in-gcf-sources
         bucket = google_storage_bucket.illuminating_bucket.name
         object = google_storage_bucket_object.illuminating_src_code.name
       }
