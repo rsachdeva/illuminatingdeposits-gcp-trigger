@@ -14,9 +14,11 @@ func init() {
 }
 
 // helloHTTP is an HTTP Cloud Function with a request parameter.
+// curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/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
+// https://api.slack.com/apps/A04LK1W2MCK/incoming-webhooks?
 func notifySlack(writer http.ResponseWriter, r *http.Request) {
-	url := "https://example.com/post"
-	var jsonStr = []byte(`{"key": "value"}`)
+	url := "https://hooks.slack.com/services/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"
+	var jsonStr = []byte(`{"text":"Triggering Illuminating Calculation Wrap Up"}`)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
 
@@ -32,5 +34,5 @@ func notifySlack(writer http.ResponseWriter, r *http.Request) {
 	fmt.Println("response Headers:", resp.Header)
 	body, _ := io.ReadAll(resp.Body)
 	fmt.Println("response Body:", string(body))
-	fmt.Fprintf(writer, "status recieved from slack notification POST is %v", resp.Status)
+	fmt.Fprintf(writer, "status recieved from slack notification POST is %v\n", resp.Status)
 }
