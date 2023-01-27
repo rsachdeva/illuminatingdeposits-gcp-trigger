@@ -29,4 +29,6 @@ checkzip/
 # inside terraform files zip file uploaded to cloud storage already
 **/deploy/terraform/*-gosource.zip
 
+# excalidra
+*.excalidraw
 
