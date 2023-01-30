@@ -22,18 +22,22 @@ clean:
 	rm -f deploy/terraform/*.zip
 
 .PHONY: zip
-zip:
-	zip illuminating_gcf_upload_src.zip go.mod gcf_upload.go vendor
+zip: mod
+	zip illuminating_gcf_upload_src.zip go.mod vendor/* gcf_upload.go
+
+.PHONY: mod
+mod:
+	go mod tidy && go mod vendor
 
 .PHONY: move-to-terraform-folder
 move-to-terraform-folder:
-	mv illuminating-gosource.zip deploy/terraform
+	mv illuminating_gcf_upload_src.zip deploy/terraform
 
 #only for checking
 
 .PHONY: unzip-check
 unzip-check:
-	unzip -p deploy/terraform/illuminating-gosource.zip hello.go | less
+	unzip -p deploy/terraform/illuminating_gcf_upload_src.zip gcf_upload.go | less
 
 .PHONY: build-check
 build-check:
