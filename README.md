@@ -22,8 +22,10 @@ Add alias tf=terraform in .zshrc or equivalent
 Steps start from root of project folder
 1. `cd gcf_upload`
 2. `make init`
-3. `make tf-apply`
-4. After you are done using this function and no longer need for any processing, `tf destroy`
+3. `make apply`
+In the end on successful completion you will get something like:
+`google_cloudfunctions2_function.illuminating_gcf_upload: Creation complete`
+4. After you are done using this function and no longer need for any processing, `make destroy`
 
 ### output for gcf_upload:
 Http trigger with curl for interestcal:

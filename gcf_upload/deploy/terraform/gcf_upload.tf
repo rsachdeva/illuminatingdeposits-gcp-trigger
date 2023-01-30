@@ -11,7 +11,7 @@ resource "google_storage_bucket_object" "illuminating_gcf_upload_src_code" {
 
 
 resource "google_cloudfunctions2_function" "illuminating_gcf_upload" {
-  name = "illuminating-deposits-vzeropoint1"
+  name = "illuminating-gcf-upload"
   location = "us-central1"
   description = "illuminating gcf that takes the interest cal actual body of json through http post and stores as a file in cloud storage from terraform script"
 

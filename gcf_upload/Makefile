@@ -19,8 +19,10 @@ clean:
 	rm -f deploy/terraform/*.zip
 
 .PHONY: zip
+# If you are using Go 1.16 or higher, you can leave the vendor directory as-is. https://cloud.google.com/functions/docs/writing/specifying-dependencies-go
 zip: mod
-	zip illuminating_gcf_upload_src.zip go.mod vendor/* gcf_upload.go
+	#zip illuminating_gcf_upload_src.zip go.mod vendor/* gcf_upload.go
+	zip illuminating_gcf_upload_src.zip go.mod gcf_upload.go
 
 .PHONY: mod
 mod:
