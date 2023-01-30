@@ -15,7 +15,17 @@ Created from link:
 
 [Google Cloud Architecture](https://googlecloudcheatsheet.withgoogle.com/architecture)
 
-### output for http trigger:
+**---------------------------**
+## Cloud Function: gcf_upload
+### Make steps for gcf_upload:
+Add alias tf=terraform in .zshrc or equivalent
+Steps start from root of project folder
+1. `cd gcf_upload`
+2. `tf init`
+3. `tf tf-prepare-apply`
+4. After you are done using this function and no longer need for any processing, `tf destroy`
+
+### output for gcf_upload:
 Http trigger with curl for interestcal:
 
 `
@@ -31,6 +41,9 @@ Output:
 
 `Hello, Whats  up!`
 
+**---------------------------**
+
+## Cloud function
 Http trigger with curl for notifyslack:
 curl -m 70 -X POST https://notifyslack-vzeropoint1-2fzqdixaqa-uc.a.run.app \
 -H "Authorization: bearer $(gcloud auth print-identity-token)" \
