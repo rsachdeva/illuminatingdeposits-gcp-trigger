@@ -22,7 +22,7 @@ Add alias tf=terraform in .zshrc or equivalent
 Steps start from root of project folder
 1. `cd gcf_upload`
 2. `make init`
-3. `make tf-prepare-apply`
+3. `make tf-apply`
 4. After you are done using this function and no longer need for any processing, `tf destroy`
 
 ### output for gcf_upload:

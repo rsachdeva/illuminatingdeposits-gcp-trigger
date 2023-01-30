@@ -1,9 +1,3 @@
-.PHONY: tf-prepare-apply
-tf-prepare-apply: tf-prepare apply
-
-.PHONY: tf-prepare
-tf-prepare: clean zip move-to-terraform-folder
-
 .PHONY: init
 init:
 	cd deploy/terraform && terraform init
@@ -13,8 +7,11 @@ destroy:
 	cd deploy/terraform && terraform destroy -auto-approve
 
 .PHONY: apply
-apply:
+apply: tf-prepare
 	cd deploy/terraform && terraform apply -auto-approve
+
+.PHONY: tf-prepare
+tf-prepare: clean zip move-to-terraform-folder
 
 .PHONY: clean
 clean:
