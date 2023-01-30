@@ -20,7 +20,7 @@ Created from link:
 ### Make steps for gcf_upload:
 Add alias tf=terraform in .zshrc or equivalent
 Steps start from root of project folder
-1. `cd gcf_upload`
+1. `cd gcf_upload/deploy/terraform`
 2. `tf init`
 3. `tf tf-prepare-apply`
 4. After you are done using this function and no longer need for any processing, `tf destroy`
