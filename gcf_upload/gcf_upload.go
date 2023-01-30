@@ -2,31 +2,36 @@ package interestcal
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
+	"github.com/go-playground/validator/v10"
 )
 
 func init() {
 	functions.HTTP("UploadHTTP", uploadHTTP)
 }
 
+// use a single instance of Validate, it caches struct info
+var validate *validator.Validate
+
 type NewDeposit struct {
 	Account     string  `json:"account,omitempty"`
-	AccountType string  `json:"account_type,omitempty"`
-	Apy         float64 `json:"apy,omitempty"`
-	Years       float64 `json:"years,omitempty"`
-	Amount      float64 `json:"amount,omitempty"`
+	AccountType string  `json:"account_type" validate:"required"`
+	Apy         float64 `json:"apy" validate:"gte=0"`
+	Years       float64 `json:"years" validate:"required"`
+	Amount      float64 `json:"amount" validate:"required"`
 }
 
 type NewBank struct {
-	Name        string
-	NewDeposits []*NewDeposit `json:"new_deposits,omitempty"`
+	Name        string        `json:"name" validate:"required"`
+	NewDeposits []*NewDeposit `json:"new_deposits" validate:"required,dive"`
 }
 
 type CreateInterestRequest struct {
-	NewBanks []*NewBank `json:"new_banks,omitempty"`
+	NewBanks []*NewBank `json:"new_banks" validate:"required,dive"`
 }
 
 // helloHTTP is an HTTP Cloud Function with a request parameter.
@@ -34,10 +39,18 @@ func uploadHTTP(writer http.ResponseWriter, r *http.Request) {
 	var req CreateInterestRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		log.Printf("Request not sucessfuly submitted. could not decode json %v", err)
-		respondWithError(writer, http.StatusBadRequest, "Invalid request payload")
+		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("Decode request payload %v", err))
 		return
 	}
 	printDecodedReq(req)
+
+	validate = validator.New()
+	err := validate.Struct(req)
+	if err != nil {
+		log.Printf("Invalid request. Could not validate json %v", err)
+		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("Invalid request payload %v", err))
+		return
+	}
 	respondWithSuccess(writer, http.StatusOK, "Request submitted successfully")
 }
 

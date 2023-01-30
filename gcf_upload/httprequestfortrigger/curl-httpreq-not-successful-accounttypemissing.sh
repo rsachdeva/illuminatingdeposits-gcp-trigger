@@ -4,6 +4,7 @@ curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
 -d '{
       "new_banks": [
         {
+          "name": "HAPPIEST",
           "new_deposits": [
             {
               "account": "1234",
@@ -45,7 +46,6 @@ curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
           "new_deposits": [
             {
               "account": "1234",
-              "account_type": "Brokered CD",
               "apy": 5,
               "years": 7,
               "amount": 10990

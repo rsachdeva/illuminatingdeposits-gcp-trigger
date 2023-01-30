@@ -20,13 +20,11 @@ clean:
 
 .PHONY: zip
 # If you are using Go 1.16 or higher, you can leave the vendor directory as-is. https://cloud.google.com/functions/docs/writing/specifying-dependencies-go
-zip: mod
+zip:
 	#zip illuminating_gcf_upload_src.zip go.mod vendor/* gcf_upload.go
 	zip illuminating_gcf_upload_src.zip go.mod gcf_upload.go
 
-.PHONY: mod
-mod:
-	go mod tidy && go mod vendor
+
 
 .PHONY: move-to-terraform-folder
 move-to-terraform-folder:
@@ -37,14 +35,22 @@ move-to-terraform-folder:
 successful-http-request:
 	sh httprequestfortrigger/curl-httpreq-successful.sh
 
-.PHONY: not-successful-http-request
-not-successful-http-request:
-	sh httprequestfortrigger/curl-httpreq-not-successful.sh
+.PHONY: not-successful-http-request-banknamemissing
+not-successful-http-request-banknamemissing:
+	sh httprequestfortrigger/curl-httpreq-not-successful-banknamemissing.sh
+
+.PHONY: not-successful-http-request-accounttypemissing
+not-successful-http-request-accounttypemissing:
+	sh httprequestfortrigger/curl-httpreq-not-successful-accounttypemissing.sh
 
 .PHONY: unzip-check
 unzip-check:
 	unzip -p deploy/terraform/illuminating_gcf_upload_src.zip gcf_upload.go | less
 
+.PHONY: mod
+mod:
+	go mod tidy && go mod vendor
+
 .PHONY: build-check
-build-check:
+build-check: mod
 	go build .
