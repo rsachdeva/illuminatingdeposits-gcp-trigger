@@ -32,7 +32,14 @@ mod:
 move-to-terraform-folder:
 	mv illuminating_gcf_upload_src.zip deploy/terraform
 
-#only for checking
+
+.PHONY: successful-http-request
+successful-http-request:
+	sh httprequestfortrigger/curl-httpreq-successful.sh
+
+.PHONY: not-successful-http-request
+not-successful-http-request:
+	sh httprequestfortrigger/curl-httpreq-not-successful.sh
 
 .PHONY: unzip-check
 unzip-check:

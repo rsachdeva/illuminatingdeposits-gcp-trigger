@@ -32,11 +32,11 @@ In the end on successful destruction you will get something like:
 Http trigger with curl for interestcal:
 
 `
-curl -m 70 -X POST https://illuminating-deposits-vzeropoint1-2fzqdixaqa-uc.a.run.app \
+curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
 -H "Authorization: bearer $(gcloud auth print-identity-token)" \
 -H "Content-Type: application/json" \
 -d '{
-"name": "Whats  up"
+  "name": "Hello World"
 }'
 `
 
