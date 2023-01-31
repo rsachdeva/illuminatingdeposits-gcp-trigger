@@ -34,20 +34,22 @@ type CreateInterestRequest struct {
 	NewBanks []*NewBank `json:"new_banks" validate:"required,dive"`
 }
 
-// helloHTTP is an HTTP Cloud Function with a request parameter.
+// uploadHTTP is an HTTP Cloud Function with a request parameter.
 func uploadHTTP(writer http.ResponseWriter, r *http.Request) {
+	log.Printf("Request received is: %v", r)
+
 	var req CreateInterestRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		log.Printf("Request not sucessfuly submitted. could not decode json %v", err)
+		log.Printf("Request not sucessfuly submitted. could not decode json %v\n", err)
 		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("Decode request payload %v", err))
 		return
 	}
+
 	printDecodedReq(req)
 
 	validate = validator.New()
-	err := validate.Struct(req)
-	if err != nil {
-		log.Printf("Invalid request. Could not validate json %v", err)
+	if err := validate.Struct(req); err != nil {
+		log.Printf("Invalid request. Could not validate json %v\n", err)
 		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("Invalid request payload %v", err))
 		return
 	}

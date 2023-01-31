@@ -1,10 +1,10 @@
-curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
+curl -m 70 -X POST "${URL}" \
 -H "Authorization: bearer $(gcloud auth print-identity-token)" \
 -H "Content-Type: application/json" \
 -d '{
-      "new_banks": [
+      new_banks": [
         {
-          "name": "HAPPIEST",
+          "name: "HAPPIEST",
           "new_deposits": [
             {
               "account": "1234",
@@ -46,7 +46,6 @@ curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
           "new_deposits": [
             {
               "account": "1234",
-              "account_type": "Brokered CD",
               "apy": 5,
               "years": 7,
               "amount": 10990

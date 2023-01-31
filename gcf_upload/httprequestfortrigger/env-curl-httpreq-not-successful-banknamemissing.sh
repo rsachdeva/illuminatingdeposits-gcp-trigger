@@ -1,4 +1,4 @@
-curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
+curl -m 70 -X POST "${URL}" \
 -H "Authorization: bearer $(gcloud auth print-identity-token)" \
 -H "Content-Type: application/json" \
 -d '{

@@ -1,4 +1,5 @@
-curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
+#https://stackoverflow.com/questions/13341955/how-to-pass-a-variable-in-a-curl-command-in-shell-scripting
+curl -m 70 -X POST "${URL}" \
 -H "Authorization: bearer $(gcloud auth print-identity-token)" \
 -H "Content-Type: application/json" \
 -d '{
@@ -46,6 +47,7 @@ curl -m 70 -X POST https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app \
           "new_deposits": [
             {
               "account": "1234",
+              "account_type": "Brokered CD",
               "apy": 5,
               "years": 7,
               "amount": 10990

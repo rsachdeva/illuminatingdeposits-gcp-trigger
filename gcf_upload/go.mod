@@ -1,4 +1,4 @@
-module github.com/rsachdeva/illuminatingdeposits-gcp-trigger/interestcal
+module github.com/rsachdeva/illuminatingdeposits-gcp-trigger/gcf_upload
 
 go 1.19
 
@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	cloud.google.com/go/functions v1.0.0 // indirect
 	github.com/cloudevents/sdk-go/v2 v2.6.1 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
