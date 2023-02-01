@@ -43,7 +43,7 @@ curl -m 70 -X POST "${URL}" \
           ]
         },
         {
-          "name": "ANGRY",
+          "name": "COOL",
           "new_deposits": [
             {
               "account": "1234",
