@@ -63,20 +63,5 @@ To see logs using gcloud command line:
 * gcloud alpha logging tail --format="default(timestamp,text_payload)"
 **---------------------------**
 
-## Cloud function
-Http trigger with curl for notifyslack:
-curl -m 70 -X POST https://notifyslack-vzeropoint1-2fzqdixaqa-uc.a.run.app \
--H "Authorization: bearer $(gcloud auth print-identity-token)" \
--H "Content-Type: application/json" \
--d '{
-"name": "Hello World"
-}'
-
-Output:
-
-Slack channel notified 
-with message:
-Triggering Illuminating Calculation Wrap Up
-
 # Version - Initial Placeholders
 v0.0.9
