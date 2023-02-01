@@ -13,3 +13,25 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# from goenv
+.go-version
+
+checkzip/
+
+# terraform files
+**/deploy/terraform/.terraform.lock.hcl
+**/deploy/terraform/.terraform/
+**/deploy/terraform/terraform.tfstate
+**/deploy/terraform/terraform.tfstate.backup
+# inside terraform files for terraform keys for service account
+**/deploy/terraform/keys*.json
+# inside terraform files zip file uploaded to cloud storage already
+**/deploy/terraform/*-gosource.zip
+
+# excalidraw
+*.excalidraw
+
+
+# vendor
+**/vendor
