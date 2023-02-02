@@ -1,0 +1,3 @@
+# Exclude files/folder from being detected by the GitHub linguist
+# statistic.
+*.sh linguist-detectable=false
