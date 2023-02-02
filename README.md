@@ -18,7 +18,11 @@ Created from link:
 **---------------------------**
 ## Cloud Function Deploy: gcf_upload
 gcf_upload google cloud function is triggered by HTTP request and submits HTTP POST request body to
-goolge cloud storage bucket for further processing.
+google cloud storage bucket for further processing.
+Terraform is used to deploy gcf_upload to google cloud.
+The service account used for deployment needs keys to be generated and stored in the deploy/terraform folder
+with the file being renamed to keys.json.
+The gcf_upload is written in Go and uses google cloud storage and google cloud functions.
 
 ### Make steps for gcf_upload deployment in cloud:
 Add alias tf=terraform in .zshrc or equivalent
