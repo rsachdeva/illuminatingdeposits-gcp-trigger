@@ -27,7 +27,7 @@ checkzip/
 # inside terraform files for terraform keys for service account
 **/deploy/terraform/keys*.json
 # inside terraform files zip file uploaded to cloud storage already
-**/deploy/terraform/*-gosource.zip
+**/deploy/terraform/*.zip
 
 # excalidraw
 *.excalidraw
@@ -35,3 +35,6 @@ checkzip/
 
 # vendor
 **/vendor
+
+# samples to trigger
+gcf_upload/httprequestfortrigger/myinvest-sample.json
