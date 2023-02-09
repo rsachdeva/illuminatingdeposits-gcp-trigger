@@ -1,4 +1,4 @@
-package interestcal
+package gcf_upload
 
 import (
 	"context"
@@ -22,15 +22,17 @@ func init() {
 	functions.HTTP("UploadHTTP", uploadHTTP)
 }
 
-// use a single instance of Validate, it caches struct info
+// use a single instance of Validate, it caches struct info.
 var validate *validator.Validate //nolint:gochecknoglobals
+
+const SuccessMsg = "Request submitted successfully. You will be notified with calculations and analytics shortly."
 
 type NewDeposit struct {
 	Account     string  `json:"account,omitempty"`
 	AccountType string  `json:"account_type" validate:"required"` //nolint:tagliatelle
 	Apy         float64 `json:"apy" validate:"gte=0"`
 	Years       float64 `json:"years" validate:"required"`
-	Amount      float64 `json:"amount" validate:"required"`
+	Amount      float64 `json:"amount" validate:"gte=0"`
 }
 
 type NewBank struct {
@@ -52,7 +54,7 @@ func uploadHTTP(writer http.ResponseWriter, httpReq *http.Request) {
 	var req CreateInterestRequest
 	if err := json.NewDecoder(httpReq.Body).Decode(&req); err != nil {
 		log.Printf("Request not successfully submitted, could not decode json %v\n", err)
-		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("Decode request payload %v", err))
+		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("decode request payload %v", err))
 
 		return
 	}
@@ -62,19 +64,24 @@ func uploadHTTP(writer http.ResponseWriter, httpReq *http.Request) {
 	validate = validator.New()
 	if err := validate.Struct(req); err != nil {
 		log.Printf("Invalid request. Could not validate json %v\n", err)
-		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("Invalid request payload %v", err))
+		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("invalid request payload %v", err))
 
 		return
 	}
 
-	if err := write(ctx, req); err != nil {
-		log.Println(err)
+	bucketName := "illuminating_upload_json_bucket_input"
+	objectName := "interestrequest.json"
+
+	if err := writeObjectToBucket(ctx, req, bucketName, objectName); err != nil {
+		respondWithError(writer, http.StatusBadRequest, fmt.Sprintf("write object to bucket for input request %v", err))
+
+		return
 	}
 
-	respondWithSuccess(writer, http.StatusOK, "Request submitted successfully")
+	respondWithSuccess(writer, http.StatusOK, SuccessMsg)
 }
 
-// print nested struct
+// print nested struct.
 func printDecodedReq(req CreateInterestRequest) {
 	for _, nb := range req.NewBanks {
 		log.Printf("new bank name is %#v", nb.Name)
@@ -113,8 +120,8 @@ func respondWithJSON(respWriter http.ResponseWriter, code int, payload interface
 	}
 }
 
-// save Go value instance to a json file in google cloud platform storage bucket
-func write(ctx context.Context, req CreateInterestRequest) error {
+// save Go value instance to a json file in google cloud platform storage bucket.
+func writeObjectToBucket(ctx context.Context, req CreateInterestRequest, bucketName, objectName string) error {
 	tempFile, err := createTempFileForUpload(req)
 	if err != nil {
 		return err
@@ -129,12 +136,10 @@ func write(ctx context.Context, req CreateInterestRequest) error {
 
 	// create a client for Google Cloud Storage
 	client, err := storage.NewClient(ctx)
-
 	if err != nil {
 		return fmt.Errorf("could not create storage client %w", err)
 	}
 	defer client.Close()
-
 	// open the temporary file
 	file, err := os.Open(tempFile.Name())
 	if err != nil {
@@ -142,11 +147,10 @@ func write(ctx context.Context, req CreateInterestRequest) error {
 	}
 	defer file.Close()
 
-	// upload the temporary file to the specified bucket name from env variable?
-	bucketName := "illuminating_upload_json_bucket"
-	objectName := "inputrequest.json"
+	// upload the temporary file to the specified bucket name from env variable
 	bucketObj := client.Bucket(bucketName).Object(objectName)
 	bucketObjWriter := bucketObj.NewWriter(ctx)
+	bucketObjWriter.ObjectAttrs.ContentType = "application/json"
 
 	if _, err := io.Copy(bucketObjWriter, file); err != nil {
 		return fmt.Errorf("could not copy temp file to bucket object writer %w", err)

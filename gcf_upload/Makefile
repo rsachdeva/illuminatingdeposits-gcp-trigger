@@ -34,12 +34,12 @@ move-to-terraform-folder:
 LOCAL_URL := http://localhost:8080
 .PHONY: local-successful-http-request
 local-successful-http-request:
-	URL=$(LOCAL_URL) sh httprequestfortrigger/env-curl-httpreq-successful.sh
+	cd httprequestfortrigger &&  URL=$(LOCAL_URL) sh ./env-curl-httpreq-successful.sh
 
 CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
 .PHONY: cloud-successful-http-request
 cloud-successful-http-request:
-	URL=$(CLOUD_URL) sh httprequestfortrigger/env-curl-httpreq-successful.sh
+	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful.sh
 
 
 LOCAL_URL := http://localhost:8080

@@ -6,7 +6,7 @@ import (
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/funcframework"
 	// Blank-import the function package so the init() runs
-	_ "github.com/rsachdeva/illuminatingdeposits-gcp-trigger/gcf_upload"
+	_ "github.com/rsachdeva/illuminatingdeposits-gcp-trigger/gcf_interestcal"
 )
 
 func main() {

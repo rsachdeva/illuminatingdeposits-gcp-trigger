@@ -1,6 +1,6 @@
 resource "google_storage_bucket" "illuminating_gcf_upload_bucket" {
-  name = "illuminating_gcf_bucket"
-  location = "US"
+  name = "illuminating_gcf_upload_bucket"
+  location = "us-central1"
 }
 
 resource "google_storage_bucket_object" "illuminating_gcf_upload_src_code" {
