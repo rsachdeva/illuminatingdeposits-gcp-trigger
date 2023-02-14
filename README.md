@@ -7,7 +7,7 @@ Illuminating Deposits Project Logo:
 ![Illuminating Deposits Project Logo](logo.png "Illuminating Deposits Project Logo")
 
 ## Overall google cloud architecture system design:
-![google cloud architecture system design](GoogleCloudArchitectureSystemDesign.png "google cloud architecture system design")
+![google cloud architecture system design](GoogleCloudArchitectureSystemDiagram.svg "google cloud architecture system design")
 
 Created from link:
 
@@ -140,4 +140,4 @@ SInce everything gets triggered with gcf_upload, we will test gcf_upload and gcf
 2. `make local-successful-http-request`
 
 # Version
-v0.2.0
+v0.2.1
