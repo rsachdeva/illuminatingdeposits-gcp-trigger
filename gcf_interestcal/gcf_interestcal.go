@@ -1,4 +1,5 @@
-package interestcal
+//nolint:revive,stylecheck // using underscore in package name for clarity
+package gcf_interestcal
 
 import (
 	"context"
@@ -32,7 +33,7 @@ type StorageObjectData struct {
 
 // helloStorage consumes a CloudEvent message and logs details about the changed object.
 func interestCalStorage(ctx context.Context, evt event.Event) error {
-	log.Println("event triggered by storage bucket file upload")
+	log.Println("interestCalStorage Triggered: event triggered by input storage bucket file upload")
 	log.Printf("Event ID: %s", evt.ID())
 	log.Printf("Event Type: %s", evt.Type())
 
@@ -60,6 +61,8 @@ func interestCalStorage(ctx context.Context, evt event.Event) error {
 	// calculate the delta
 	resp, err := calculateDelta(ctx, reqData)
 	if err != nil {
+		log.Println("calculate delta error is", err)
+
 		return fmt.Errorf("calculateDelta: %w", err)
 	}
 

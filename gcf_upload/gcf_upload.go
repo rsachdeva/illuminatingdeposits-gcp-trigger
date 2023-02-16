@@ -1,3 +1,4 @@
+//nolint:revive,stylecheck // using underscore in package name for clarity
 package gcf_upload
 
 import (
@@ -46,7 +47,7 @@ type CreateInterestRequest struct {
 
 // uploadHTTP is an HTTP Cloud Function with a request parameter.
 func uploadHTTP(writer http.ResponseWriter, httpReq *http.Request) {
-	log.Printf("Request body received is: %v", httpReq.Body)
+	log.Printf("uploadHTTP Triggered: Request body received is: %v", httpReq.Body)
 
 	ctx := httpReq.Context()
 	log.Println("ctx is", ctx)

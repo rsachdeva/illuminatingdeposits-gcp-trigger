@@ -1,3 +1,4 @@
+// buckets for source code illuminating_gcf_upload_src.zip
 resource "google_storage_bucket" "illuminating_gcf_upload_bucket" {
   name = "illuminating_gcf_upload_bucket"
   location = "us-central1"

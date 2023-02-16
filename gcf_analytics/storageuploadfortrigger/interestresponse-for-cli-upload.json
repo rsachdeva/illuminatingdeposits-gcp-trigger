@@ -1,0 +1,77 @@
+{
+  "banks": [
+    {
+      "name": "CHEERMAKER",
+      "deposits": [
+        {
+          "account": "1234",
+          "account_type": "Brokered CD",
+          "apy": 5,
+          "years": 7,
+          "amount": 10990,
+          "delta": 45.16
+        },
+        {
+          "account": "9898",
+          "account_type": "CD",
+          "apy": 2.22,
+          "years": 1,
+          "amount": 5500,
+          "delta": 10.04
+        },
+        {
+          "account": "3833",
+          "account_type": "Saving",
+          "apy": 3.75,
+          "years": 20,
+          "amount": 150000,
+          "delta": 670.78
+        }
+      ],
+      "delta": 725.98
+    },
+    {
+      "name": "HAPPIEST",
+      "deposits": [
+        {
+          "account": "1234",
+          "account_type": "Checking",
+          "years": 1,
+          "amount": 100
+        },
+        {
+          "account": "1256",
+          "account_type": "CD",
+          "apy": 24,
+          "years": 2,
+          "amount": 7700,
+          "delta": 170.12
+        },
+        {
+          "account": "1111",
+          "account_type": "CD",
+          "apy": 1.01,
+          "years": 10,
+          "amount": 27000,
+          "delta": 23.46
+        }
+      ],
+      "delta": 193.58
+    },
+    {
+      "name": "PEACEMAKER",
+      "deposits": [
+        {
+          "account": "1234",
+          "account_type": "Brokered CD",
+          "apy": 2.4,
+          "years": 7,
+          "amount": 10990,
+          "delta": 21.68
+        }
+      ],
+      "delta": 21.68
+    }
+  ],
+  "delta": 941.24
+}

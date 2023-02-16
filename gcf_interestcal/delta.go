@@ -1,6 +1,7 @@
 // Calculations
 
-package interestcal
+//nolint:revive,stylecheck // using underscore in package name for clarity
+package gcf_interestcal
 
 import (
 	"context"
@@ -77,8 +78,8 @@ func timeTrack(start time.Time, name string) {
 	log.Printf("%s took %s", name, elapsed)
 }
 
-// use a single instance of Validate, it caches struct info.
-var validate *validator.Validate //nolint:gochecknoglobals
+//nolint:gochecknoglobals // use a single instance of Validate, it caches struct info.
+var validate *validator.Validate
 
 func calculateDelta(ctx context.Context, reqData []byte) (*CreateInterestResponse, error) {
 	var (
@@ -101,7 +102,7 @@ func calculateDelta(ctx context.Context, reqData []byte) (*CreateInterestRespons
 
 	resp, err := deltaSvc.compute(ctx, &req)
 	if err != nil {
-		log.Println("err locally is", err)
+		return nil, fmt.Errorf("compute err %w", err)
 	}
 
 	return resp, nil

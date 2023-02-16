@@ -1,0 +1,66 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "delta",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "REQUIRED",
+    "name": "created_at",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "banks",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delta",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "deposits",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "account",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "account_type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "apy",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "years",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "amount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "delta",
+            "type": "NUMERIC"
+          }
+        ]
+      }
+    ]
+  }
+]
