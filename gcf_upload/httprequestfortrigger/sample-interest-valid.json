@@ -1,7 +1,7 @@
 {
   "new_banks": [
     {
-      "name": "HAPPIEST-withinteresetcal",
+      "name": "MOUNTAIN",
       "new_deposits": [
         {
           "account": "1234",
@@ -15,14 +15,14 @@
           "account_type": "CD",
           "apy": 24,
           "years": 2,
-          "amount": 7700
+          "amount": 50000
         },
         {
           "account": "1111",
           "account_type": "CD",
           "apy": 1.01,
           "years": 10,
-          "amount": 27000
+          "amount": 21000
         }
       ]
     },

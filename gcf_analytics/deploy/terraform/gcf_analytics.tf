@@ -1,38 +1,38 @@
-// buckets for source code illuminating_gcf_interestcal_src.zip
-resource "google_storage_bucket" "illuminating_gcf_interestcal_bucket" {
-  name = "illuminating_gcf_interestcal_bucket"
+// buckets for source code illuminating_gcf_analytics_src.zip
+resource "google_storage_bucket" "illuminating_gcf_analytics_bucket" {
+  name = "illuminating_gcf_analytics_bucket"
   location = "us-central1"
 }
 
-resource "google_storage_bucket_object" "illuminating_gcf_interestcal_src_code" {
+resource "google_storage_bucket_object" "illuminating_gcf_analytics_src_code" {
   name = "illuminating_gcf_src_code"
-  bucket = google_storage_bucket.illuminating_gcf_interestcal_bucket.name
-  source = "illuminating_gcf_interestcal_src.zip"
+  bucket = google_storage_bucket.illuminating_gcf_analytics_bucket.name
+  source = "illuminating_gcf_analytics_src.zip"
 }
 
-resource "google_cloudfunctions2_function" "illuminating_gcf_interestcal" {
-  name = "illuminating-gcf-interestcal"
+resource "google_cloudfunctions2_function" "illuminating_gcf_analytics" {
+  name = "illuminating-gcf-analytics"
   location = "us-central1"
-  description = "gcf that that gets triggered by file in cloud storage illuminating_upload_json_bucket_input trigger bucket and make interest calculation for that data and stores in another illuminating_upload_json_bucket_output bucket"
+  description = "gcf that that gets triggered by file in cloud storage illuminating_upload_json_bucket_out trigger bucket and imports data to bigquery"
 
   build_config {
     runtime = "go119"
-    entry_point = "InterestCalStorage"  # Set the entry point for exported function
+    entry_point = "DeltaCalAppendAnalytics"  # Set the entry point for exported function
     source {
       storage_source {
         # gcf-v2-sources-923961404233-us-central1 created bucket with a file function-source.zip. This is automatically created from
         # illuminating_gcp_trigger bucket with the uploaded file from our terraform block above illuminating-gosource.zip
         # manually clean this resource if needed to be sure when doing terraform destroy reference:
         # https://stackoverflow.com/questions/72148179/after-delete-a-cloud-function-it-still-in-gcf-sources
-        bucket = google_storage_bucket.illuminating_gcf_interestcal_bucket.name
-        object = google_storage_bucket_object.illuminating_gcf_interestcal_src_code.name
+        bucket = google_storage_bucket.illuminating_gcf_analytics_bucket.name
+        object = google_storage_bucket_object.illuminating_gcf_analytics_src_code.name
       }
     }
   }
 
   lifecycle {
     replace_triggered_by  = [
-      google_storage_bucket_object.illuminating_gcf_interestcal_src_code
+      google_storage_bucket_object.illuminating_gcf_analytics_src_code
     ]
   }
 

@@ -41,6 +41,15 @@ CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
 cloud-successful-http-request:
 	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful.sh
 
+CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+.PHONY: cloud-successful-http-request-2
+cloud-successful-http-request-2:
+	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful-2.sh
+
+CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+.PHONY: cloud-successful-http-request-3
+cloud-successful-http-request-3:
+	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful-3.sh
 
 LOCAL_URL := http://localhost:8080
 .PHONY: local-not-successful-http-request-banknamemissing

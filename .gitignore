@@ -37,4 +37,5 @@ checkzip/
 **/vendor
 
 # samples to trigger
-gcf_upload/httprequestfortrigger/myinvest-sample.json
+gcf_upload/httprequestfortrigger/sample-myinvest-*
+gcf_upload/httprequestfortrigger/env-curl-httpreq-successful-*
