@@ -5,12 +5,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"time"
 
 	"cloud.google.com/go/bigquery"
 	"cloud.google.com/go/civil"
+	"cloud.google.com/go/storage"
 	"github.com/go-playground/validator/v10"
+)
+
+const (
+	projectID = "illuminatingdeposits-gcp"
+	datasetID = "gcfdeltaanalytics"
+	tableID   = "delta_calculations"
 )
 
 type DeltaCalculations struct {
@@ -42,6 +50,34 @@ type Bank struct {
 var validate *validator.Validate //nolint:gochecknoglobals
 
 type LoadService struct{}
+
+func readObjectFromBucket(ctx context.Context, bucketName, objectName string) ([]byte, error) {
+	// Creates a client.
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("storage.NewClient: %w", err)
+	}
+
+	// Get the bucket.
+	bucket := client.Bucket(bucketName)
+
+	// Get the object.
+	obj := bucket.Object(objectName)
+
+	// Read the data from the object.
+	reader, err := obj.NewReader(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("obj.NewReader: %w", err)
+	}
+	defer reader.Close()
+
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		return nil, fmt.Errorf("ioutil.ReadAll: %w", err)
+	}
+
+	return data, nil
+}
 
 func appendCal(ctx context.Context, respData []byte) error {
 	var (
@@ -84,10 +120,6 @@ func printDecodedResp(resp CreateInterestResponse) {
 }
 
 func (svc LoadService) addToBigQueryTable(ctx context.Context, ciresp *CreateInterestResponse) error {
-	projectID := "illuminatingdeposits-gcp"
-	datasetID := "gcfdeltaanalytics"
-	tableID := "delta_calculations"
-
 	client, err := bigquery.NewClient(ctx, projectID)
 	if err != nil {
 		return fmt.Errorf("bigquery.NewClient err: %w", err)

@@ -1,0 +1,22 @@
+# to see linters enabled run: golangci-lint -v linters
+linters:
+  # Enable all available linters.
+  # Default: false
+  # Disabled by your configuration linters by default to have the default settings just comment line below with enable-all
+  enable-all: true
+  # Disable specific linter
+  # https://golangci-lint.run/usage/linters/#disabled-by-default
+  disable:
+    - structcheck
+    - golint
+    - varcheck
+    - nosnakecase
+    - ifshort
+    - maligned
+    - deadcode
+    - exhaustivestruct
+    - scopelint
+    - interfacer
+    - rowserrcheck
+    - sqlclosecheck
+    - wastedassign

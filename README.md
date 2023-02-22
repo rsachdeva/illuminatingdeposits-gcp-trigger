@@ -66,7 +66,7 @@ Steps start from root of project folder
 3. `make local-not-successful-http-request-accounttypemissing`
 4. `make local-not-successful-http-request-banknamemissing`
 5. `make local-successful-http-request`
-
+Here this sends Cloud Storage event to a CloudEvent function running at localhost:8080 using curl request.
 
 ### Seeing logs in console on the web for a cloud function:
 1. Go to Log tab of Google Cloud Function
@@ -115,7 +115,7 @@ Also, See Related [Multiple Cloud Functions](#multiple-cloud-functions)
 
 #### Testing gcf_interestcal in cloud:
 `make cloud-successful-storage-upload`
-This copes the file locally to cloud storage
+This copies the file locally to cloud storage
 
 ### Make steps for gcf_interestcal deployment locally:
 Steps start from root of project folder
@@ -125,7 +125,7 @@ Steps start from root of project folder
 #### Testing gcf_interestcal locally:
 `make local-successful-send-event-to-cloud-event-function`
 This only triggers the function locally and does not copy the file to cloud storage.
-You can send san event to CloudEvent function locally with already existing file in cloud storage
+Here this sends Cloud Storage event to a CloudEvent function running at localhost:8080 using curl request.
 
 **---------------------------**
 
@@ -135,6 +135,12 @@ Depends on gcf_interestcal cloud function deployed and having run successfully. 
 
 gcf_analytics google cloud function is triggered by upload to illuminating_upload_json_bucket_output by gcf_interestcal cloud
 function and starts appending the calculations to BigQuery `delta_calculations` table in `gcfdeltaanalytics` table.
+Scope: Analytics triggered by a Submit of Interest Request only supported currently.
+Currently, 
+* This appends a row in BigQuery for Interest Request Submitted. There is also env variable for query only mode to bypass this fpr development mode.
+* Based on the interest request submitted, this does query on BigQuery for delta calculations overall for last 5 requests to
+compare the delta calculations. This result is placed in Analytics struct 
+* Then it also Publishes as JSON the analytics message to PubSub.
 
 ### Make steps for gcf_analytics deployment in cloud:
 Add alias tf=terraform in .zshrc or equivalent
@@ -151,7 +157,7 @@ Also, See Related [Multiple Cloud Functions](#multiple-cloud-functions)
 
 #### Testing gcf_analytics in cloud:
 `make cloud-successful-storage-upload`
-This copes the file locally to cloud storage
+This copies the file locally to cloud storage
 
 ### Make steps for gcf_analytics deployment locally:
 Steps start from root of project folder
@@ -161,7 +167,44 @@ Steps start from root of project folder
 #### Testing gcf_analytics locally:
 `make local-successful-send-event-to-cloud-event-function`
 This only triggers the function locally and does not copy the file to cloud storage.
-You can send san event to CloudEvent function locally with already existing file in cloud storage
+You can send an event to CloudEvent function locally with already existing file in cloud storage
+Here this sends Cloud Storage event to a CloudEvent function running at localhost:8080 using curl request.
+
+
+
+## Cloud Function Deploy: gcf_notify
+Depends on gcf_analytics cloud function deployed and having run successfully. See System Diagram for more details.
+
+gcf_notify google cloud function is triggered by message published to pubsub topic `deltaanalyticstopic` by gcf_analytics cloud
+function.
+Currently, adds logs to console log explorer for message decoded from base64 encoding per JSON message schema received from pubsub.
+
+### Make steps for gcf_notify deployment in cloud:
+Add alias tf=terraform in .zshrc or equivalent
+Steps start from root of project folder
+1. `cd gcf_notify`
+2. `make init`
+3. `make apply`
+4.  In the end on successful creation you will get something like:
+    `google_cloudfunctions2_function.illuminating_gcf_notify: Creation complete`
+5. After you are done using this function and no longer need for any processing, `make destroy`
+   In the end on successful destruction you will get something like:
+   `google_storage_bucket.illuminating_gcf_notify_bucket: Destruction complete`
+   Also, See Related [Multiple Cloud Functions](#multiple-cloud-functions)
+
+#### Testing gcf_notify in cloud:
+`make cloud-pubsub-message-successful`
+This publishes a message to pubsub topic
+
+### Make steps for gcf_notify deployment locally:
+Steps start from root of project folder
+1. `cd gcf_notify`
+2. `make gcf-local`
+
+#### Testing gcf_notify locally:
+`make local-successful-send-event-to-cloud-event-function`
+This triggers the function locally by sending message to deltaanalyticstopic.
+Here this sends Cloud Pub/Sub event to a CloudEvent function running at localhost:8080 using curl request.
 
 **---------------------------**
 
@@ -181,7 +224,7 @@ Since everything gets triggered with gcf_upload, we will test gcf_upload and gcf
 2. `make cloud-successful-http-request`
 3. To view logs in Google Cloud [Log Explorer](https://console.cloud.google.com/logs/) for all cloud functions change query tab text to:
   `(resource.type = "cloud_run_revision"
-   resource.labels.service_name ="illuminating-gcf-upload" OR resource.labels.service_name = "illuminating-gcf-interestcal" OR resource.labels.service_name = "illuminating-gcf-analytics"
+   resource.labels.service_name ="illuminating-gcf-upload" OR resource.labels.service_name = "illuminating-gcf-interestcal" OR resource.labels.service_name = "illuminating-gcf-analytics" OR resource.labels.service_name = "illuminating-gcf-notify"
    resource.labels.location = "us-central1")
    severity>=DEFAULT`
 4. Click Run Query
@@ -191,4 +234,4 @@ Since everything gets triggered with gcf_upload, we will test gcf_upload and gcf
 
 
 # Version
-v0.3.0
+v0.4.0

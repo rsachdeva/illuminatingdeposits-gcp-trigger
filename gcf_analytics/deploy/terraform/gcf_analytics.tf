@@ -17,7 +17,7 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_analytics" {
 
   build_config {
     runtime = "go119"
-    entry_point = "DeltaCalAppendAnalytics"  # Set the entry point for exported function
+    entry_point = "DeltaCalAnalytics"  # Set the entry point for exported function
     source {
       storage_source {
         # gcf-v2-sources-923961404233-us-central1 created bucket with a file function-source.zip. This is automatically created from
@@ -44,6 +44,11 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_analytics" {
     ingress_settings = "ALLOW_ALL"
     # Whether 100% of traffic is routed to the latest revision. Defaults to true.
     all_traffic_on_latest_revision = true
+    environment_variables = {
+      // for development mode only it is true should be made false for production
+      QUERY_MODE_ONLY_DEVELOPMENT = "false"
+      PUBSUB_DELTA_ANALYTICS_TOPIC = "deltaanalyticstopic"
+    }
   }
 
   event_trigger {
