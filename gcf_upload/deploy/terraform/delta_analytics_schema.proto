@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message AnalyticsResults {
+  string highest_delta_deposits_by_date = 1;
+  string highest_delta_banks = 2;
+  string highest_apy_banks = 3;
+
+  string lowest_delta_deposits_non_checking = 4;
+  string lowest_delta_banks_non_checking = 5;
+  string lowest_apy_banks_non_checking = 6;
+
+  string delta_recent_compared_to_historical_interest_requests = 9;
+
+  string processing_message_error = 10;
+}

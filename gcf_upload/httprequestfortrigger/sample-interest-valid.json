@@ -39,7 +39,7 @@
       ]
     },
     {
-      "name": "CHEERMAKER-2",
+      "name": "VISION-BANK",
       "new_deposits": [
         {
           "account": "1234",
@@ -60,7 +60,7 @@
           "account_type": "Saving",
           "apy": 3.75,
           "years": 20,
-          "amount": 150000
+          "amount": 10000
         }
       ]
     }

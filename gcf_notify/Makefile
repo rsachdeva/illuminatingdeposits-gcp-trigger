@@ -13,10 +13,6 @@ apply: tf-prepare
 .PHONY: tf-prepare
 tf-prepare: clean zip move-to-terraform-folder
 
-.PHONY: validate
-validate:
-	cd deploy/terraform && terraform validate
-
 .PHONY: clean
 clean:
 	rm -f *.zip
@@ -25,28 +21,28 @@ clean:
 .PHONY: zip
 # If you are using Go 1.16 or higher, you can leave the vendor directory as-is. https://cloud.google.com/functions/docs/writing/specifying-dependencies-go
 zip:
-	#zip illuminating_gcf_analytics_src.zip go.mod vendor/* gcf_analytics.go
-	zip illuminating_gcf_analytics_src.zip go.mod *.go
+	#zip illuminating_gcf_notify_src.zip go.mod vendor/* gcf_notify.go
+	zip illuminating_gcf_notify_src.zip go.mod *.go
 
 
 
 .PHONY: move-to-terraform-folder
 move-to-terraform-folder:
-	mv illuminating_gcf_analytics_src.zip deploy/terraform
+	mv illuminating_gcf_notify_src.zip deploy/terraform
 
 .PHONY: cloud-successful-storage-upload
-cloud-successful-storage-upload:
-	cd storageuploadfortrigger && sh ./cloud-storage-upload-successful.sh
+cloud-pubsub-message-successful:
+	cd publishmessagefortrigger && sh ./cloud-pubsub-message-successful.sh
 
 .PHONY: local-successful-storage-upload
 # https://cloud.google.com/functions/docs/running/calling#cloudevent-function-curl-tabs-storage
 local-successful-send-event-to-cloud-event-function:
-	cd storageuploadfortrigger && sh ./local-send-event-to-cloud-event-function.sh
+	cd publishmessagefortrigger && sh ./local-send-event-to-cloud-event-function.sh
 
 # check targets
 .PHONY: unzip-check
 unzip-check:
-	unzip -p deploy/terraform/illuminating_gcf_analytics_src.zip gcf_analytics.go | less
+	unzip -p deploy/terraform/illuminating_gcf_notify_src.zip gcf_notify.go | less
 
 .PHONY: mod
 mod:
@@ -59,4 +55,4 @@ build-check: mod
 # local gcf target
 .PHONY: gcf-local
 gcf-local:
-	export FUNCTION_TARGET=DeltaCalAnalytics && export QUERY_MODE_ONLY_DEVELOPMENT=true && export PUBSUB_DELTA_ANALYTICS_TOPIC="deltaanalyticstopic" && go run cmd_localgcf/main.go
+	export FUNCTION_TARGET=NotifyInvestorOfDelta && go run cmd_localgcf/main.go

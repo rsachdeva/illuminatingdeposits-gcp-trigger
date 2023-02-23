@@ -4,11 +4,11 @@ package gcf_analytics
 import (
 	"context"
 	"fmt"
-	"io"
 	"log"
+	"os"
+	"strconv"
 	"time"
 
-	"cloud.google.com/go/storage"
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
 )
@@ -18,7 +18,7 @@ import (
 //
 //nolint:gochecknoinits
 func init() {
-	functions.CloudEvent("DeltaCalAppendAnalytics", deltaCalAppendAnalytics)
+	functions.CloudEvent("DeltaCalAnalytics", deltaCalAnalytics)
 }
 
 // StorageObjectData contains metadata of the Cloud Storage object.
@@ -31,8 +31,8 @@ type StorageObjectData struct {
 }
 
 // analyzeDeltaStorage consumes a CloudEvent message for Interest calculation with Delta uploaded to output bucket.
-func deltaCalAppendAnalytics(ctx context.Context, evt event.Event) error {
-	log.Println("deltaCalAppendAnalytics Triggered: event triggered by output storage bucket file")
+func deltaCalAnalytics(ctx context.Context, evt event.Event) error {
+	log.Println("deltaCalAnalytics Triggered: event triggered by output storage bucket file")
 	log.Printf("Event ID: %s", evt.ID())
 	log.Printf("Event Type: %s", evt.Type())
 
@@ -43,13 +43,38 @@ func deltaCalAppendAnalytics(ctx context.Context, evt event.Event) error {
 
 	log.Printf("Bucket: %s", data.Bucket)
 	log.Printf("File: %s", data.Name)
-	log.Printf("Metageneration: %d", data.Metageneration)
-	log.Printf("Created: %s", data.TimeCreated)
-	log.Printf("Updated: %s", data.Updated)
-
+	// log.Printf("Metageneration: %d", data.Metageneration)
+	// log.Printf("Created: %s", data.TimeCreated)
+	// log.Printf("Updated: %s", data.Updated)
 	log.Println("ctx is", ctx)
+	log.Println("QUERY_MODE_ONLY_DEVELOPMENT is", os.Getenv("QUERY_MODE_ONLY_DEVELOPMENT"))
+
+	// if queryOnlyMode is true, then  no data will be imported to big query
+	// only query will be executed and published to pubsub
+	queryOnlyMode, err := strconv.ParseBool(os.Getenv("QUERY_MODE_ONLY_DEVELOPMENT"))
+	if err != nil {
+		return fmt.Errorf("strconv.ParseBool for QUERY_MODE_ONLY_DEVELOPMENT : %w", err)
+	}
+
+	log.Println("queryOnlyMode bool got is", queryOnlyMode)
 
 	// read the file from the bucket
+	if err := readAndAppendToBigQuery(ctx, queryOnlyMode, data); err != nil {
+		return fmt.Errorf("readAndAppendToBigQuery: %w", err)
+	}
+
+	if err := queryAndPublishAnalytics(ctx); err != nil {
+		return fmt.Errorf("queryAndPublishAnalytics: %w", err)
+	}
+
+	return nil
+}
+
+func readAndAppendToBigQuery(ctx context.Context, queryOnlyMode bool, data StorageObjectData) error {
+	if queryOnlyMode {
+		return nil
+	}
+
 	respData, err := readObjectFromBucket(ctx, data.Bucket, data.Name)
 	if err != nil {
 		return fmt.Errorf("readObjectFromBucket: %w", err)
@@ -65,32 +90,4 @@ func deltaCalAppendAnalytics(ctx context.Context, evt event.Event) error {
 	}
 
 	return nil
-}
-
-func readObjectFromBucket(ctx context.Context, bucketName, objectName string) ([]byte, error) {
-	// Creates a client.
-	client, err := storage.NewClient(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("storage.NewClient: %w", err)
-	}
-
-	// Get the bucket.
-	bucket := client.Bucket(bucketName)
-
-	// Get the object.
-	obj := bucket.Object(objectName)
-
-	// Read the data from the object.
-	reader, err := obj.NewReader(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("obj.NewReader: %w", err)
-	}
-	defer reader.Close()
-
-	data, err := io.ReadAll(reader)
-	if err != nil {
-		return nil, fmt.Errorf("ioutil.ReadAll: %w", err)
-	}
-
-	return data, nil
 }
