@@ -54,5 +54,12 @@ build-check: mod
 
 # local gcf target
 .PHONY: gcf-local
-gcf-local:
+gcf-local: gcf-local-email-env
 	export FUNCTION_TARGET=NotifyInvestorOfDelta && go run cmd_localgcf/main.go
+
+# local email env set up optional since using secret manager
+.PHONY: gcf-local-email-env
+include sendgrid_api_local.env
+export $(shell sed 's/=.*//' sendgrid_api_local.env)
+gcf-local-email-env:
+	printenv

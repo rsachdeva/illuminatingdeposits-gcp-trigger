@@ -1,3 +1,14 @@
+// Package gcf_analytics google cloud function is triggered by upload to illuminating_upload_json_bucket_output by gcf_interestcal cloud
+// function and starts appending the calculations to BigQuery `delta_calculations` table in `gcfdeltaanalytics` table.
+// Scope: Analytics triggered by a Submit of Interest Request only supported currently.
+// Currently,
+// * This appends a row in BigQuery for Interest Request Submitted. There is also env variable for query only mode to bypass this fpr development mode.
+// * Based on the interest request submitted, this does query on BigQuery for delta calculations overall for last 5 requests to
+// compare the delta calculations. This result is placed in Analytics struct
+// * Then it also Publishes as JSON the analytics message to PubSub.
+//
+// Depends on gcf_interestcal cloud function deployed and having run successfully. See System Diagram for more details.
+
 //nolint:revive,stylecheck // using underscore in package name for clarity
 package gcf_analytics
 

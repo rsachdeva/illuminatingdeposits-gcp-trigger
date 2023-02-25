@@ -20,8 +20,9 @@ Created from link:
 
 [Google Cloud Architecture](https://googlecloudcheatsheet.withgoogle.com/architecture)
 
-Please see GREEN in System Diagram. Those are Golang (Go) based Google Cloud Functions (GCF) that have initial versions completed.
-System design can change as the project progresses.
+GREEN here means these initial cloud functions have been implemented, development is in progress.
+RED Text And GREEN Stroke boxes means partially completed in progress
+There is only 1 box in RED + GEEN and that is the box for the Google Cloud Function (GCF) gcf_analytics. 
 
 **---------------------------**
 ## Cloud Function Deploy: gcf_upload
@@ -88,12 +89,12 @@ To see logs using gcloud command line:
 **---------------------------**
 
 ## Cloud Function Deploy: gcf_interestcal
-Depends on gcf_upload cloud function deployed and having run successfully. See System Diagram for more details.
-
-gcf_interstcal google cloud function is triggered by upload to illuminating_upload_json_bucket_input by gcf_upload cloud
+gcf_interestcal google cloud function is triggered by upload to illuminating_upload_json_bucket_input by gcf_upload cloud
 function and starts calculating Delta for each bank account including overall for all deposits. It then also
 uploads the calculated  Deltas with deposit details to illuminating_upload_json_bucket_output google cloud storage bucket
 for further processing.
+
+Depends on gcf_upload cloud function deployed and having run successfully. See System Diagram for more details.
 
 Terraform is used to deploy gcf_interestcsal to google cloud.
 The service account used for deployment needs keys to be generated and stored in the deploy/terraform folder
@@ -131,8 +132,6 @@ Here this sends Cloud Storage event to a CloudEvent function running at localhos
 
 
 ## Cloud Function Deploy: gcf_analytics
-Depends on gcf_interestcal cloud function deployed and having run successfully. See System Diagram for more details.
-
 gcf_analytics google cloud function is triggered by upload to illuminating_upload_json_bucket_output by gcf_interestcal cloud
 function and starts appending the calculations to BigQuery `delta_calculations` table in `gcfdeltaanalytics` table.
 Scope: Analytics triggered by a Submit of Interest Request only supported currently.
@@ -141,6 +140,8 @@ Currently,
 * Based on the interest request submitted, this does query on BigQuery for delta calculations overall for last 5 requests to
 compare the delta calculations. This result is placed in Analytics struct 
 * Then it also Publishes as JSON the analytics message to PubSub.
+
+Depends on gcf_interestcal cloud function deployed and having run successfully. See System Diagram for more details.
 
 ### Make steps for gcf_analytics deployment in cloud:
 Add alias tf=terraform in .zshrc or equivalent
@@ -173,11 +174,14 @@ Here this sends Cloud Storage event to a CloudEvent function running at localhos
 
 
 ## Cloud Function Deploy: gcf_notify
-Depends on gcf_analytics cloud function deployed and having run successfully. See System Diagram for more details.
+This Google cloud function is triggered by message published to pubsub topic `deltaanalyticstopic` by
+gcf_analytics cloud function. Uses google cloud secret manager grabbing sendgrid api key to send email message
+decoded from base64 encoding per JSON message schema received from pubsub.
+Only sends from verified sender.
+Sends to env email address for now, in future version will be able to
+send to email address specified in request
 
-gcf_notify google cloud function is triggered by message published to pubsub topic `deltaanalyticstopic` by gcf_analytics cloud
-function.
-Currently, adds logs to console log explorer for message decoded from base64 encoding per JSON message schema received from pubsub.
+Depends on gcf_analytics cloud function deployed and having run successfully. See System Diagram for more details.
 
 ### Make steps for gcf_notify deployment in cloud:
 Add alias tf=terraform in .zshrc or equivalent
@@ -218,8 +222,8 @@ Steps start from root of project folder at `illuminatingdeposits-gcp-trigger`
 2. `make apply`
 3. `make destroy`
 
-#### Integration Testing gcf_upload and gcf_interestcal and gcf_analytics in cloud:
-Since everything gets triggered with gcf_upload, we will test gcf_upload and gcf_interestcal together using gcf_upload http request submission:
+#### Integration Testing gcf_upload, gcf_interestcal, gcf_analytics and gcf_notify in cloud:
+Since everything gets triggered with gcf_upload, we will test gcf_upload , gcf_interestcal, gcf_analytics and gcf_notify together using gcf_upload http request submission:
 1. `cd gcf_upload`
 2. `make cloud-successful-http-request`
 3. To view logs in Google Cloud [Log Explorer](https://console.cloud.google.com/logs/) for all cloud functions change query tab text to:
@@ -229,9 +233,11 @@ Since everything gets triggered with gcf_upload, we will test gcf_upload and gcf
    severity>=DEFAULT`
 4. Click Run Query
 5. Adjust time to see logs from last 10 minutes or whatever as needed
+6. You should see in log email sent. This happens after the analytics are calculated and sent to pubsub topic.
+7. you should receive an email set in env variable `RECEIVER_EMAIL` in gcf_notify cloud function with the custom message.
 
 **---------------------------**
 
 
 # Version
-v0.4.0
+v0.5.0
