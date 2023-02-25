@@ -44,6 +44,10 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_notify" {
     ingress_settings = "ALLOW_ALL"
     # Whether 100% of traffic is routed to the latest revision. Defaults to true.
     all_traffic_on_latest_revision = true
+    environment_variables = {
+      SENDER_EMAIL = file("sender_email.txt")
+      RECEIVER_EMAIL = file("receiver_email.txt")
+    }
   }
 
   event_trigger  {

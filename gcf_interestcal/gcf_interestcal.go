@@ -1,3 +1,11 @@
+// Package gcf_interestcal google cloud function is triggered by upload to illuminating_upload_json_bucket_input
+// by gcf_upload cloud function and starts calculating Delta for each bank account
+// including overall for all deposits. It then also
+// uploads the calculated  Deltas with deposit details to illuminating_upload_json_bucket_output google
+// cloud storage bucket for further processing.
+//
+// Depends on gcf_upload cloud function deployed and having run successfully. See System Diagram for more details.
+//
 //nolint:revive,stylecheck // using underscore in package name for clarity
 package gcf_interestcal
 
