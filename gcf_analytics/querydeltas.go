@@ -107,7 +107,7 @@ func queryDepositHighestDelta(ctx context.Context, writer io.Writer) error {
 		// if err == iterator.Done {
 		// 	break
 		// }
-		log.Println("errors.Is(err, iterator.Done) is", errors.Is(err, iterator.Done))
+		log.Println("bigquery errors.Is(err, iterator.Done) is", errors.Is(err, iterator.Done))
 
 		if errors.Is(err, iterator.Done) {
 			break

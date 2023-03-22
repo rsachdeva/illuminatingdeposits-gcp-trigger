@@ -46,4 +46,7 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_upload" {
     # Whether 100% of traffic is routed to the latest revision. Defaults to true.
     all_traffic_on_latest_revision = true
   }
+  #  from GCP in Cloud Functions deployed, every 2nd gen cloud function has HTTPS endpoint.
+  # Cloud Functions 2nd gen has stable and secure HTTPS endpoints by default.
+  # so no need to set https trigger
 }

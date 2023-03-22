@@ -1,3 +1,6 @@
+// Package gcf_upload google cloud function is triggered by HTTP request and submits HTTP POST request body to
+// google cloud storage bucket for further processing.
+//
 //nolint:revive,stylecheck // using underscore in package name for clarity
 package gcf_upload
 

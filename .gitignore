@@ -40,3 +40,6 @@ checkzip/
 # samples to trigger
 gcf_upload/httprequestfortrigger/sample-myinvest-*
 gcf_upload/httprequestfortrigger/env-curl-httpreq-successful-*
+
+sendgrid*
+*_email*
