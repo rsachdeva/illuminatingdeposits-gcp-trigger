@@ -17,7 +17,7 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_upload" {
   description = "illuminating gcf that takes the interest cal actual body of json through http post and stores as a file in cloud storage from terraform script"
 
   build_config {
-    runtime = "go119"
+    runtime = "go120"
     entry_point = "UploadHTTP"  # Set the entry point for exported function
     source {
       storage_source {

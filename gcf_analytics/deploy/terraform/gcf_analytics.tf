@@ -16,7 +16,7 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_analytics" {
   description = "gcf that that gets triggered by file in cloud storage illuminating_upload_json_bucket_out trigger bucket and imports data to bigquery"
 
   build_config {
-    runtime = "go119"
+    runtime = "go120"
     entry_point = "DeltaCalAnalytics"  # Set the entry point for exported function
     source {
       storage_source {

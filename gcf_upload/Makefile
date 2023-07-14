@@ -36,17 +36,17 @@ LOCAL_URL := http://localhost:8080
 local-successful-http-request:
 	cd httprequestfortrigger &&  URL=$(LOCAL_URL) sh ./env-curl-httpreq-successful.sh
 
-CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+CLOUD_URL := https://us-central1-illuminatingdeposits-gcp.cloudfunctions.net/illuminating-gcf-upload
 .PHONY: cloud-successful-http-request
 cloud-successful-http-request:
 	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful.sh
 
-CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+CLOUD_URL := https://us-central1-illuminatingdeposits-gcp.cloudfunctions.net/illuminating-gcf-upload
 .PHONY: cloud-successful-http-request-2
 cloud-successful-http-request-2:
 	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful-2.sh
 
-CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+CLOUD_URL := https://us-central1-illuminatingdeposits-gcp.cloudfunctions.net/illuminating-gcf-upload
 .PHONY: cloud-successful-http-request-3
 cloud-successful-http-request-3:
 	cd httprequestfortrigger && URL=$(CLOUD_URL) sh ./env-curl-httpreq-successful-3.sh
@@ -56,7 +56,7 @@ LOCAL_URL := http://localhost:8080
 local-not-successful-http-request-banknamemissing:
 	URL=$(LOCAL_URL) sh httprequestfortrigger/env-curl-httpreq-not-successful-banknamemissing.sh
 
-CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+CLOUD_URL := https://us-central1-illuminatingdeposits-gcp.cloudfunctions.net/illuminating-gcf-upload
 .PHONY: cloud-not-successful-http-request-banknamemissing
 cloud-not-successful-http-request-banknamemissing:
 	URL=$(CLOUD_URL) sh httprequestfortrigger/env-curl-httpreq-not-successful-banknamemissing.sh
@@ -67,7 +67,7 @@ LOCAL_URL := http://localhost:8080
 local-not-successful-http-request-accounttypemissing:
 	URL=$(LOCAL_URL) sh httprequestfortrigger/env-curl-httpreq-not-successful-accounttypemissing.sh
 
-CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+CLOUD_URL := https://us-central1-illuminatingdeposits-gcp.cloudfunctions.net/illuminating-gcf-upload
 .PHONY: cloud-not-successful-http-request-accounttypemissing
 cloud-not-successful-http-request-accounttypemissing:
 	URL=$(CLOUD_URL) sh httprequestfortrigger/env-curl-httpreq-not-successful-accounttypemissing.sh
@@ -77,7 +77,7 @@ LOCAL_URL := http://localhost:8080
 local-incorrect-json:
 	URL=$(LOCAL_URL) sh httprequestfortrigger/env-curl-httpreq-incorrect-json.sh
 
-CLOUD_URL := https://illuminating-gcf-upload-2fzqdixaqa-uc.a.run.app
+CLOUD_URL := https://us-central1-illuminatingdeposits-gcp.cloudfunctions.net/illuminating-gcf-upload
 .PHONY: cloud-incorrect-json
 cloud-incorrect-json:
 	URL=$(CLOUD_URL) sh httprequestfortrigger/env-curl-httpreq-incorrect-json.sh

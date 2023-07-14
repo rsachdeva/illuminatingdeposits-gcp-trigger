@@ -16,7 +16,7 @@ resource "google_cloudfunctions2_function" "illuminating_gcf_interestcal" {
   description = "gcf that that gets triggered by file in cloud storage illuminating_upload_json_bucket_input trigger bucket and make interest calculation for that data and stores in another illuminating_upload_json_bucket_output bucket"
 
   build_config {
-    runtime = "go119"
+    runtime = "go120"
     entry_point = "InterestCalStorage"  # Set the entry point for exported function
     source {
       storage_source {
