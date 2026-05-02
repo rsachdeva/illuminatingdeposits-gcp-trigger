@@ -106,7 +106,7 @@ func respondWithSuccess(w http.ResponseWriter, code int, msg string) {
 	respondWithJSON(w, code, map[string]string{"message": msg})
 }
 
-func respondWithJSON(respWriter http.ResponseWriter, code int, payload interface{}) {
+func respondWithJSON(respWriter http.ResponseWriter, code int, payload any) {
 	response, err := json.Marshal(payload)
 	if err != nil {
 		code = http.StatusInternalServerError
@@ -143,18 +143,18 @@ func writeObjectToBucket(ctx context.Context, req CreateInterestRequest, bucketN
 	if err != nil {
 		return fmt.Errorf("could not create storage client %w", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 	// open the temporary file
 	file, err := os.Open(tempFile.Name())
 	if err != nil {
 		return fmt.Errorf("could not open temp file %w", err)
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	// upload the temporary file to the specified bucket name from env variable
 	bucketObj := client.Bucket(bucketName).Object(objectName)
 	bucketObjWriter := bucketObj.NewWriter(ctx)
-	bucketObjWriter.ObjectAttrs.ContentType = "application/json"
+	bucketObjWriter.ContentType = "application/json"
 
 	if _, err := io.Copy(bucketObjWriter, file); err != nil {
 		return fmt.Errorf("could not copy temp file to bucket object writer %w", err)

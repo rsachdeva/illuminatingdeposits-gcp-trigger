@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"cloud.google.com/go/pubsub"
+	"cloud.google.com/go/pubsub" //nolint:staticcheck // v2 migration deferred
 )
 
 func queryAndPublishAnalytics(ctx context.Context) error {
@@ -68,7 +68,7 @@ func publishAnalytics(ctx context.Context, writer io.Writer, topicID, msg string
 	if err != nil {
 		return fmt.Errorf("pubsub: NewClient: %writer", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	topic := client.Topic(topicID)
 
@@ -89,7 +89,7 @@ func publishAnalytics(ctx context.Context, writer io.Writer, topicID, msg string
 		return fmt.Errorf("pubsub: result.Get: %writer", err)
 	}
 
-	fmt.Fprintf(writer, "Published a message; msg ID: %v\n", id)
+	_, _ = fmt.Fprintf(writer, "Published a message; msg ID: %v\n", id)
 
 	return nil
 }

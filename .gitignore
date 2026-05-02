@@ -43,3 +43,8 @@ gcf_upload/httprequestfortrigger/env-curl-httpreq-successful-*
 
 sendgrid*
 *_email*
+
+
+# Environment
+.env
+.envrc

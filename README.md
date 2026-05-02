@@ -240,4 +240,4 @@ Since everything gets triggered with gcf_upload, we will test gcf_upload , gcf_i
 
 
 # Version
-v0.5.0
+v0.6.0

@@ -35,8 +35,8 @@ type StorageObjectData struct {
 	Bucket         string    `json:"bucket,omitempty"`
 	Name           string    `json:"name,omitempty"`
 	Metageneration int64     `json:"metageneration,string,omitempty"`
-	TimeCreated    time.Time `json:"timeCreated,omitempty"`
-	Updated        time.Time `json:"updated,omitempty"`
+	TimeCreated    time.Time `json:"timeCreated"`
+	Updated        time.Time `json:"updated"`
 }
 
 // helloStorage consumes a CloudEvent message and logs details about the changed object.
@@ -114,7 +114,7 @@ func readObjectFromBucket(ctx context.Context, bucketName, objectName string) ([
 	if err != nil {
 		return nil, fmt.Errorf("obj.NewReader: %w", err)
 	}
-	defer reader.Close()
+	defer func() { _ = reader.Close() }()
 
 	data, err := io.ReadAll(reader)
 	if err != nil {
@@ -131,13 +131,13 @@ func writeObjectToBucket(ctx context.Context, resp *CreateInterestResponse, buck
 	if err != nil {
 		return fmt.Errorf("could not create storage client %w", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	// upload the temporary file to the specified bucket name from env variable.
 	bucket := client.Bucket(bucketName)
 	bucketObj := bucket.Object(objectName)
 	bucketObjWriter := bucketObj.NewWriter(ctx)
-	bucketObjWriter.ObjectAttrs.ContentType = "application/json"
+	bucketObjWriter.ContentType = "application/json"
 
 	// marshall go value req to json
 	respWithDelta, err := json.Marshal(resp)

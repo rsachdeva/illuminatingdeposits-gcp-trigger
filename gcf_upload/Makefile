@@ -87,6 +87,34 @@ cloud-incorrect-json:
 unzip-check:
 	unzip -p deploy/terraform/illuminating_gcf_upload_src.zip gcf_upload.go | less
 
+.PHONY: fmt
+fmt:
+	go fmt ./...
+
+.PHONY: fmt-diff
+fmt-diff:
+	gofmt -d .
+
+.PHONY: lint
+lint:
+	go tool golangci-lint version
+	go tool golangci-lint run
+
+.PHONY: lint-fix
+lint-fix:
+	go tool golangci-lint version
+	go tool golangci-lint run --fix
+
+.PHONY: fix-diff
+fix-diff:
+	go version
+	go fix -diff ./...
+
+.PHONY: fix
+fix:
+	go version
+	go fix ./...
+
 .PHONY: mod
 mod:
 	go mod tidy && go mod vendor

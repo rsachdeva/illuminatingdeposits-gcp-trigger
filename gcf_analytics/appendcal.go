@@ -69,7 +69,7 @@ func readObjectFromBucket(ctx context.Context, bucketName, objectName string) ([
 	if err != nil {
 		return nil, fmt.Errorf("obj.NewReader: %w", err)
 	}
-	defer reader.Close()
+	defer func() { _ = reader.Close() }()
 
 	data, err := io.ReadAll(reader)
 	if err != nil {
@@ -124,7 +124,7 @@ func (svc LoadService) addToBigQueryTable(ctx context.Context, ciresp *CreateInt
 	if err != nil {
 		return fmt.Errorf("bigquery.NewClient err: %w", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	table := client.Dataset(datasetID).Table(tableID)
 

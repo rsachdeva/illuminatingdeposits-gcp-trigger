@@ -1,22 +1,23 @@
-# to see linters enabled run: golangci-lint -v linters
+version: '2'
+
+run:
+  timeout: 5m
+  skip-dirs:
+    - node_modules/
+    - vendor/
+    - explore/
+
 linters:
-  # Enable all available linters.
-  # Default: false
-  # Disabled by your configuration linters by default to have the default settings just comment line below with enable-all
-  enable-all: true
-  # Disable specific linter
-  # https://golangci-lint.run/usage/linters/#disabled-by-default
-  disable:
-    - structcheck
-    - golint
-    - varcheck
-    - nosnakecase
-    - ifshort
-    - maligned
-    - deadcode
-    - exhaustivestruct
-    - scopelint
-    - interfacer
-    - rowserrcheck
+  enable:
     - sqlclosecheck
-    - wastedassign
+    - bodyclose
+    - modernize
+  exclusions:
+    paths:
+      - explore
+
+  settings:
+    errcheck:
+      exclude-functions:
+        - (*database/sql.Rows).Close
+        - (*database/sql.DB).Close

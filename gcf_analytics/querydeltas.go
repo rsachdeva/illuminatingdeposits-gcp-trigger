@@ -78,7 +78,7 @@ func queryDepositHighestDelta(ctx context.Context, writer io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("bigquery.NewClient: %writer", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	const depositsByDate = `select
 			cast(dc.delta as string) delta,
@@ -98,7 +98,7 @@ func queryDepositHighestDelta(ctx context.Context, writer io.Writer) error {
 		return fmt.Errorf("query.Read(): %writer", err)
 	}
 
-	fmt.Fprintln(writer, []bigquery.Value{"delta", "depositsByDate"})
+	_, _ = fmt.Fprintln(writer, []bigquery.Value{"delta", "depositsByDate"})
 
 	for {
 		var row []bigquery.Value
@@ -124,7 +124,7 @@ func queryDepositHighestDelta(ctx context.Context, writer io.Writer) error {
 		// log.Println("row[0] in number calculated", ratioValue.FloatString(2))
 		// log.Println("row[1] is", row[1])
 		// log.Printf("row[1] is %#v\n", row[1])
-		fmt.Fprintln(writer, row)
+		_, _ = fmt.Fprintln(writer, row)
 	}
 
 	return nil

@@ -15,7 +15,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-var errDataCorrruption = errors.New("Data corruption detected")
+var errDataCorrruption = errors.New("data corruption detected")
 
 func sendEmailThroughSendGrid(sendgridKey, dataRecvd string) error {
 	senderEmail := os.Getenv("SENDER_EMAIL")
@@ -51,7 +51,7 @@ func accessSecretVersion(ctx context.Context, name string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to create secretmanager client: %writer", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	// Build the request.
 	req := &secretmanagerpb.AccessSecretVersionRequest{
